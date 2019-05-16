@@ -25,8 +25,7 @@ pipeline {
                         if [[ $(aws ecr describe-repositories --query 'repositories[?repositoryName==`hello_world`].repositoryUri' --output text) -lt 1 ]]; then
                             aws ecr create-repository --repository-name hello_world;
                         fi
-                    '''
-                    sh '''
+
                         export ECR_REPO=$(aws ecr describe-repositories --query 'repositories[?repositoryName==`hello_world`].repositoryUri' --output text)
                         docker tag hello_world:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
                         docker push ${ECR_REPO}:${BUILD_NUMBER}
