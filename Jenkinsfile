@@ -22,7 +22,7 @@ pipeline {
                         '''
                         sh '''
                             #!/usr/bin/env bash
-                            export ECR_REPO=https://016582840202.dkr.ecr.us-east-1.amazonaws.com/hello_world
+                            export ECR_REPO=016582840202.dkr.ecr.us-east-1.amazonaws.com/hello_world
                             docker tag hello_world:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
                             docker push ${ECR_REPO}:${BUILD_NUMBER}
                         '''
