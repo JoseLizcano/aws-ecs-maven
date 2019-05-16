@@ -105,7 +105,7 @@
         }
       ],
       "TaskDefinition": {
-        "Ref": "RubyHelloWorldTaskDefinition"
+        "Ref": "HelloWorldTaskDefinition"
       },
       "Role": {
         "Fn::ImportValue" : "ECSServiceRole"
@@ -113,7 +113,7 @@
     },
     "Type": "AWS::ECS::Service"
   },
-  "RubyHelloWorldTaskDefinition": {
+  "HelloWorldTaskDefinition": {
     "Properties": {
       "ContainerDefinitions": [
         {
