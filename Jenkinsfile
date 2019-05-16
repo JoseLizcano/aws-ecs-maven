@@ -22,7 +22,6 @@ pipeline {
                         '''
                         sh '''
                             #!/usr/bin/env bash
-                            $(aws ecr get-login --no-include-email )
                             if [[ $(aws ecr describe-repositories --query 'repositories[?repositoryName==`hello_world`].repositoryUri' --output text) -lt 1 ]]; then
                                 aws ecr create-repository --repository-name hello_world;
                             fi
