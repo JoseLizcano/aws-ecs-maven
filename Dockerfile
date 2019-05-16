@@ -1,5 +1,4 @@
 FROM maven:3.5-jdk-8-alpine as build
-ARG project 
 WORKDIR /app
 COPY . /app
 RUN mvn install && mvn test
