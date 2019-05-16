@@ -36,20 +36,19 @@ pipeline {
                 script {
                     sh '''#!/usr/bin/env bash
                         export ECR_REPO=016582840202.dkr.ecr.us-east-1.amazonaws.com/hello_world
-                        export CF_ROLE_ARN=arn:aws:iam::016582840202:role/DEVOPS-CFRole-Z12JF9HZ2RVI
                         export CF_ROLE_ARN=$(aws cloudformation list-exports --query 'Exports[?Name==`CFRoleARN`].Value' --output text)
-                        if aws cloudformation describe-stacks  --query 'Stacks[].StackName' | grep JenkinsECSHelloWorld ; then
-                            aws cloudformation update-stack  --role-arn ${CF_ROLE_ARN} --stack-name JenkinsECSHelloWorld --template-body file://helloworld-taskdefinition.json  --parameters ParameterKey=TaskAmount,ParameterValue=1 ParameterKey=ContainerImage,ParameterValue=${ECR_REPO}:${BUILD_NUMBER}
+                        if aws cloudformation describe-stacks  --query 'Stacks[].StackName' | grep DEVOPSHelloWorld ; then
+                            aws cloudformation update-stack  --role-arn ${CF_ROLE_ARN} --stack-name DEVOPSHelloWorld --template-body file://helloworld-taskdefinition.json  --parameters ParameterKey=TaskAmount,ParameterValue=1 ParameterKey=ContainerImage,ParameterValue=${ECR_REPO}:${BUILD_NUMBER}
                         else
-                            aws cloudformation create-stack  --role-arn ${CF_ROLE_ARN} --stack-name JenkinsECSHelloWorld --template-body file://helloworld-taskdefinition.json  --parameters ParameterKey=TaskAmount,ParameterValue=1 ParameterKey=ContainerImage,ParameterValue=${ECR_REPO}:${BUILD_NUMBER}
+                            aws cloudformation create-stack  --role-arn ${CF_ROLE_ARN} --stack-name DEVOPSHelloWorld --template-body file://helloworld-taskdefinition.json  --parameters ParameterKey=TaskAmount,ParameterValue=1 ParameterKey=ContainerImage,ParameterValue=${ECR_REPO}:${BUILD_NUMBER}
                         fi
                     '''
                     sh '''#!/usr/bin/env bash
                         sleep 30
-                        export status=$(aws cloudformation describe-stacks  --stack-name=JenkinsECSHelloWorld --query Stacks[].StackStatus --output text)
+                        export status=$(aws cloudformation describe-stacks  --stack-name=DEVOPSHelloWorld --query Stacks[].StackStatus --output text)
                         while [[ $status != *COMPLETE &&  $status != *FAILED ]]; do
                         sleep 30
-                        export status=$(aws cloudformation describe-stacks  --stack-name=JenkinsECSHelloWorld --query Stacks[].StackStatus --output text)
+                        export status=$(aws cloudformation describe-stacks  --stack-name=DEVOPSHelloWorld --query Stacks[].StackStatus --output text)
                         done
                         echo $status
                         [[ $status == "UPDATE_COMPLETE" || $status == "CREATE_COMPLETE" ]]
