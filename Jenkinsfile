@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker build --build-arg project=hello_world \
+                        docker build \
                         --build-arg artifactid=hello_world \
                         --build-arg version=1.0-SNAPSHOT \
                         -t hello_world:${BUILD_TAG} . < Dockerfile
